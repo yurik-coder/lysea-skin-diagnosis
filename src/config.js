@@ -2,4 +2,4 @@
 // true にすると、実際のAPIを呼ばずダミーデータを返します（dummyResult.js参照）。
 export const USE_DUMMY_RESPONSE = false;
 
-export const API_BASE_URL = "http://localhost:5001";
+export const API_BASE_URL = "https://lysea-skin-diagnosis-api.onrender.com";
