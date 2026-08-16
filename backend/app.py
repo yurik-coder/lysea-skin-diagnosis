@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import time
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from google import genai
@@ -184,14 +185,28 @@ def build_image_and_comment_prompt(profile):
 """
 
 
+def generate_with_retry(contents, max_retries=2, delay_seconds=3):
+    """Gemini APIが混雑（503 UNAVAILABLE）している時、少し待って最大2回まで再試行する"""
+    last_error = None
+    for attempt in range(max_retries + 1):
+        try:
+            return client.models.generate_content(model=MODEL_NAME, contents=contents)
+        except Exception as e:
+            last_error = e
+            is_busy = "503" in str(e) or "UNAVAILABLE" in str(e)
+            if is_busy and attempt < max_retries:
+                time.sleep(delay_seconds)
+                continue
+            raise last_error
+
+
 def analyze_and_comment_with_gemini(image_bytes, mime_type, profile):
     prompt = build_image_and_comment_prompt(profile)
-    response = client.models.generate_content(
-        model=MODEL_NAME,
+    response = generate_with_retry(
         contents=[
             types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
             prompt,
-        ],
+        ]
     )
     data = extract_json(response.text)
     scores = {k: max(0, min(100, int(data[k]))) for k in RADAR_KEYS}
@@ -232,10 +247,7 @@ def extract_json(text):
 
 def generate_comment(profile, scores):
     prompt = build_comment_prompt(profile, scores)
-    response = client.models.generate_content(
-        model=MODEL_NAME,
-        contents=[prompt],
-    )
+    response = generate_with_retry(contents=[prompt])
     return response.text.strip()
 
 
@@ -280,4 +292,5 @@ def analyze():
 
 
 if __name__ == "__main__":
-    app.run(port=5001, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host="0.0.0.0", port=port, debug=False)
