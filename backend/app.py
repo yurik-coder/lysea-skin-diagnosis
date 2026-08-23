@@ -113,6 +113,61 @@ SKIN_STATE_PREFIX = {
     "transparency": "透明感が控えめな",
 }
 
+# 実際のECサイトの商品カタログ（script.jsのproductDataと同じID・情報）
+# 「?item=商品ID」でECサイト側の商品モーダルを直接開ける
+CARE_SET_MAP = {
+    "hydration": {
+        "title": "うるおいチャージセット",
+        "concern": "乾燥・保湿ケア",
+        "products": [
+            {"id": "moist-charge-lotion", "name": "モイスト チャージ ローション", "price": "¥4,400 (税込)"},
+            {"id": "moist-charge-serum", "name": "モイスト チャージ セラム", "price": "¥5,500 (税込)"},
+            {"id": "moist-charge-cream", "name": "モイスト チャージ クリーム", "price": "¥5,200 (税込)"},
+        ],
+    },
+    "spots": {
+        "title": "透明感・美白ケアセット",
+        "concern": "シミ・美白ケア",
+        "products": [
+            {"id": "brightening-serum", "name": "ブライトニング セラム", "price": "¥6,500 (税込)"},
+            {"id": "brightening-spot-essence", "name": "ブライトニング スポットケア美容液", "price": "¥5,800 (税込)"},
+            {"id": "brightening-cream", "name": "ブライトニング クリーム", "price": "¥6,000 (税込)"},
+        ],
+    },
+    "pores": {
+        "title": "毛穴クリアケアセット",
+        "concern": "毛穴・角質ケア",
+        "products": [
+            {"id": "pure-milk-cleanse", "name": "ピュア ミルク クレンズ", "price": "¥3,800 (税込)"},
+            {"id": "moist-whip-wash", "name": "モイスト ホイップ ウォッシュ", "price": "¥3,200 (税込)"},
+        ],
+    },
+    "firmness": {
+        "title": "ハリ育成エイジングケアセット",
+        "concern": "エイジング（ハリ・弾力）",
+        "products": [
+            {"id": "advanced-rich-serum", "name": "アドバンスド リッチ セラム", "price": "¥6,800 (税込)"},
+            {"id": "advanced-rich-cream", "name": "アドバンスド リッチ クリーム", "price": "¥7,500 (税込)"},
+            {"id": "advanced-rich-eye-cream", "name": "アドバンスド リッチ アイクリーム", "price": "¥6,000 (税込)"},
+        ],
+    },
+    "transparency": {
+        "title": "透明感かがやきセット",
+        "concern": "透明感・くすみ",
+        "products": [
+            {"id": "day-protect-uv-essence", "name": "デイプロテクト UVエッセンス", "price": "¥3,500 (税込)"},
+            {"id": "brightening-lotion", "name": "ブライトニング ローション", "price": "¥5,000 (税込)"},
+            {"id": "brightening-emulsion", "name": "ブライトニング エマルジョン", "price": "¥5,200 (税込)"},
+        ],
+    },
+}
+
+
+def pick_care_set(scores):
+    """スコアが最も低い項目に応じて、実商品のおすすめセットを選ぶ"""
+    weakest_key = min(scores, key=scores.get)
+    return CARE_SET_MAP[weakest_key]
+
 
 def rule_based_scores(profile):
     """問診内容だけからスコアを計算する（画像がない場合に使用）"""
@@ -185,7 +240,7 @@ def build_image_and_comment_prompt(profile):
 """
 
 
-def generate_with_retry(contents, max_retries=2, delay_seconds=3):
+def generate_with_retry(contents, max_retries=1, delay_seconds=2):
     """Gemini APIが混雑（503 UNAVAILABLE）している時、少し待って最大2回まで再試行する"""
     last_error = None
     for attempt in range(max_retries + 1):
@@ -286,6 +341,7 @@ def analyze():
         "skinAge": compute_skin_age(profile.get("age"), scores),
         "diagnosisType": pick_diagnosis_type(scores),
         "careTips": pick_care_tips(scores),
+        "careSet": pick_care_set(scores),
         "skinState": pick_skin_state(scores, profile.get("skinType", "")),
     }
     return jsonify(result)
