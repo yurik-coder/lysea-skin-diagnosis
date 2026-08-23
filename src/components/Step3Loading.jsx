@@ -118,7 +118,7 @@ export default function Step3Loading({ profile, photoFile, onComplete }) {
           <button
             type="button"
             onClick={() => window.location.reload()}
-            style={{ padding: "10px 24px", borderRadius: "999px", border: "none", background: COLORS.sage, color: "#FFFFFF", fontSize: "13px", cursor: "pointer" }}
+            style={{ padding: "10px 24px", borderRadius: "999px", border: "none", background: COLORS.dark, color: "#FFFFFF", fontSize: "13px", cursor: "pointer" }}
           >
             最初からやり直す
           </button>
@@ -141,7 +141,7 @@ export default function Step3Loading({ profile, photoFile, onComplete }) {
       <div style={{ width: "100%", maxWidth: "420px", textAlign: "center" }}>
         <p
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontSize: "22px",
             letterSpacing: "0.15em",
             color: COLORS.text,
@@ -160,8 +160,7 @@ export default function Step3Loading({ profile, photoFile, onComplete }) {
               width: "206px",
               height: "7px",
               borderRadius: "999px",
-              background: COLORS.sageLight,
-              overflow: "hidden",
+              background: COLORS.bgBeige,
             }}
           >
             <div
@@ -211,9 +210,9 @@ export default function Step3Loading({ profile, photoFile, onComplete }) {
 
         <h1
           style={{
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Zen Kaku Gothic New', sans-serif",
             fontSize: "24px",
-            fontWeight: 600,
+            fontWeight: 700,
             color: COLORS.text,
             marginBottom: "14px",
           }}
@@ -224,7 +223,7 @@ export default function Step3Loading({ profile, photoFile, onComplete }) {
         <p
           style={{
             fontSize: "13.5px",
-            color: COLORS.sage,
+            color: COLORS.pink,
             minHeight: "20px",
             opacity: fade ? 1 : 0,
             transition: "opacity 0.25s ease",

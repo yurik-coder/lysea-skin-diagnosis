@@ -19,8 +19,8 @@ function PillGroup({ options, selected, onToggle, multi }) {
             padding: "9px 16px",
             borderRadius: "999px",
             fontSize: "14px",
-            border: `1px solid ${isActive(opt) ? COLORS.sage : COLORS.border}`,
-            background: isActive(opt) ? COLORS.sage : "#FFFFFF",
+            border: `1px solid ${isActive(opt) ? COLORS.pink : COLORS.border}`,
+            background: isActive(opt) ? COLORS.pink : "#FFFFFF",
             color: isActive(opt) ? "#FFFFFF" : COLORS.text,
             cursor: "pointer",
             transition: "all 0.15s ease",
@@ -66,11 +66,11 @@ export default function Step1Profile({ onNext }) {
         padding: "48px 16px",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "480px" }}>
+      <div className="app-shell" style={{ width: "100%", maxWidth: "480px" }}>
         <p
           style={{
             textAlign: "center",
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontSize: "22px",
             letterSpacing: "0.15em",
             color: COLORS.text,
@@ -98,6 +98,7 @@ export default function Step1Profile({ onNext }) {
         </p>
 
         <div
+          className="step-card"
           style={{
             background: "#FFFFFF",
             borderRadius: "16px",
@@ -107,9 +108,9 @@ export default function Step1Profile({ onNext }) {
         >
           <h1
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Zen Kaku Gothic New', sans-serif",
               fontSize: "26px",
-              fontWeight: 600,
+              fontWeight: 700,
               color: COLORS.text,
               textAlign: "center",
               marginBottom: "6px",
@@ -162,7 +163,7 @@ export default function Step1Profile({ onNext }) {
               padding: "14px",
               borderRadius: "999px",
               border: "none",
-              background: COLORS.sage,
+              background: COLORS.dark,
               color: "#FFFFFF",
               fontSize: "15px",
               letterSpacing: "0.05em",

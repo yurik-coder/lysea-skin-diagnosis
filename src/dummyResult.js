@@ -19,4 +19,13 @@ export const DUMMY_RESULT = {
     "乳液の後にセラミド配合クリームでうるおいに蓋をする",
   ],
   skinState: "乾燥傾向のある混合肌",
+  careSet: {
+    title: "うるおいチャージセット",
+    concern: "乾燥・保湿ケア",
+    products: [
+      { id: "moist-charge-lotion", name: "モイスト チャージ ローション", price: "¥4,400 (税込)" },
+      { id: "moist-charge-serum", name: "モイスト チャージ セラム", price: "¥5,500 (税込)" },
+      { id: "moist-charge-cream", name: "モイスト チャージ クリーム", price: "¥5,200 (税込)" },
+    ],
+  },
 };

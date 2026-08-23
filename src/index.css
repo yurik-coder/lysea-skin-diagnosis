@@ -9,10 +9,47 @@ body {
 }
 
 body {
-  font-family: "Noto Sans JP", sans-serif;
-  background: #faf6f0;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  background: #fdf8f7;
 }
 
 button {
   font-family: inherit;
+}
+
+/* ==========================================================================
+   PC向けレイアウト調整（1024px以上）
+   スマホ表示のカードデザインはそのまま、幅と一部レイアウトだけをPC向けに拡張します。
+   ========================================================================== */
+
+/* STEP1〜3: カード全体の横幅を広げ、中身は横並びの2カラムにする */
+@media (min-width: 1024px) {
+  .app-shell {
+    max-width: 860px !important;
+  }
+
+  .step-card {
+    padding: 48px 64px !important;
+  }
+
+  .step-card-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+  }
+
+  /* 結果画面: カードの高さに応じて自動的に2カラムへバランス良く振り分ける */
+  .result-shell {
+    max-width: 1040px !important;
+  }
+
+  .result-two-col {
+    column-count: 2;
+    column-gap: 24px;
+  }
+
+  .result-two-col > * {
+    break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+  }
 }

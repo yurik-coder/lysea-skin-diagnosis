@@ -36,11 +36,11 @@ export default function Step2PhotoUpload({ onNext }) {
         padding: "48px 16px",
       }}
     >
-      <div style={{ width: "100%", maxWidth: "480px" }}>
+      <div className="app-shell" style={{ width: "100%", maxWidth: "480px" }}>
         <p
           style={{
             textAlign: "center",
-            fontFamily: "'Cormorant Garamond', serif",
+            fontFamily: "'Montserrat', sans-serif",
             fontSize: "22px",
             letterSpacing: "0.15em",
             color: COLORS.text,
@@ -68,6 +68,7 @@ export default function Step2PhotoUpload({ onNext }) {
         </p>
 
         <div
+          className="step-card"
           style={{
             background: "#FFFFFF",
             borderRadius: "16px",
@@ -77,9 +78,9 @@ export default function Step2PhotoUpload({ onNext }) {
         >
           <h1
             style={{
-              fontFamily: "'Cormorant Garamond', serif",
+              fontFamily: "'Zen Kaku Gothic New', sans-serif",
               fontSize: "26px",
-              fontWeight: 600,
+              fontWeight: 700,
               color: COLORS.text,
               textAlign: "center",
               marginBottom: "6px",
@@ -94,8 +95,8 @@ export default function Step2PhotoUpload({ onNext }) {
             style={{
               textAlign: "center",
               fontSize: "12.5px",
-              color: COLORS.sage,
-              background: COLORS.sageLight,
+              color: COLORS.pink,
+              background: COLORS.pinkLight,
               borderRadius: "8px",
               padding: "8px 12px",
               marginBottom: "26px",
@@ -114,12 +115,12 @@ export default function Step2PhotoUpload({ onNext }) {
               onDragLeave={() => setDragOver(false)}
               onDrop={handleDrop}
               style={{
-                border: `1.5px dashed ${dragOver ? COLORS.sage : COLORS.border}`,
+                border: `1.5px dashed ${dragOver ? COLORS.pink : COLORS.border}`,
                 borderRadius: "12px",
                 padding: "40px 20px",
                 textAlign: "center",
                 cursor: "pointer",
-                background: dragOver ? COLORS.sageLight : "#FCFAF6",
+                background: dragOver ? COLORS.pinkLight : "#FCFAF6",
                 transition: "all 0.15s ease",
               }}
             >
@@ -128,13 +129,13 @@ export default function Step2PhotoUpload({ onNext }) {
                   width: "48px",
                   height: "48px",
                   borderRadius: "50%",
-                  background: COLORS.sageLight,
+                  background: COLORS.pinkLight,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   margin: "0 auto 14px",
                   fontSize: "22px",
-                  color: COLORS.sage,
+                  color: COLORS.pink,
                 }}
               >
                 ＋
@@ -169,7 +170,7 @@ export default function Step2PhotoUpload({ onNext }) {
                 onClick={handleRemove}
                 style={{
                   fontSize: "12.5px",
-                  color: COLORS.sage,
+                  color: COLORS.pink,
                   background: "none",
                   border: "none",
                   textDecoration: "underline",
@@ -210,7 +211,7 @@ export default function Step2PhotoUpload({ onNext }) {
               padding: "14px",
               borderRadius: "999px",
               border: "none",
-              background: COLORS.sage,
+              background: COLORS.dark,
               color: "#FFFFFF",
               fontSize: "15px",
               letterSpacing: "0.05em",
