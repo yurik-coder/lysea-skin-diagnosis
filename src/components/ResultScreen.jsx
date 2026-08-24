@@ -117,8 +117,6 @@ export default function ResultScreen({ result, onRestart }) {
       const canvas = await html2canvas(reportRef.current, {
         scale: 2,
         backgroundColor: COLORS.bg,
-        windowWidth: 480,
-        width: 480,
         ignoreElements: (el) => el.classList?.contains("no-print"),
       });
       const imgData = canvas.toDataURL("image/png");
@@ -164,6 +162,7 @@ export default function ResultScreen({ result, onRestart }) {
         </p>
 
         <div className="result-two-col">
+        <div>
         <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "32px 24px 26px", textAlign: "center", marginBottom: "16px", position: "relative", overflow: "hidden" }}>
           <Sparkles size={16} color={COLORS.gold} style={{ position: "absolute", top: 18, left: 20 }} />
           <Sparkles size={12} color={COLORS.bronze} style={{ position: "absolute", top: 30, right: 26 }} />
@@ -186,10 +185,10 @@ export default function ResultScreen({ result, onRestart }) {
           </div>
         </div>
 
-        <div style={{ background: COLORS.pinkLight, borderRadius: "18px", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
-          <Sprout size={18} color={COLORS.pink} />
+        <div style={{ background: COLORS.aquaLight, borderRadius: "18px", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
+          <Sprout size={18} color={COLORS.aqua} />
           <span style={{ fontSize: "13.5px", color: COLORS.text }}>あなたの推定肌年齢は</span>
-          <span style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "22px", fontWeight: 700, color: COLORS.pink }}>{skinAge}歳</span>
+          <span style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "22px", fontWeight: 700, color: COLORS.wine }}>{skinAge}歳</span>
           <span style={{ fontSize: "13.5px", color: COLORS.text }}>です</span>
         </div>
 
@@ -208,9 +207,11 @@ export default function ResultScreen({ result, onRestart }) {
             ))}
           </div>
         </div>
+        </div>
 
+        <div>
         <div style={{ display: "flex", gap: "10px", marginBottom: "18px", alignItems: "flex-start" }}>
-          <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: COLORS.pink, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
+          <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: COLORS.aqua, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
             <Droplet size={18} color="#FFFFFF" fill="#FFFFFF" fillOpacity={0.25} />
           </div>
           <div style={{ background: "#FFFFFF", border: `1px solid ${COLORS.border}`, borderRadius: "4px 18px 18px 18px", padding: "18px 18px", fontSize: "13.5px", lineHeight: 1.9, color: COLORS.text, flex: 1 }}>
@@ -223,7 +224,7 @@ export default function ResultScreen({ result, onRestart }) {
           <div style={{ display: "flex", flexDirection: "column", gap: "9px" }}>
             {careTips.map((tip, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                <CheckCircle2 size={15} color={COLORS.bronze} style={{ flexShrink: 0, marginTop: "1.5px" }} />
+                <CheckCircle2 size={15} color={COLORS.aqua} style={{ flexShrink: 0, marginTop: "1.5px" }} />
                 <span style={{ fontSize: "13px", color: COLORS.text, lineHeight: 1.6 }}>{tip}</span>
               </div>
             ))}
@@ -248,8 +249,8 @@ export default function ResultScreen({ result, onRestart }) {
                 {...(itemUrl ? { href: itemUrl, target: "_blank", rel: "noopener noreferrer" } : {})}
                 style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 4px", borderTop: i > 0 ? `1px solid ${COLORS.border}` : "none", textDecoration: "none", cursor: itemUrl ? "pointer" : "default" }}
               >
-                <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: COLORS.pinkLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Droplet size={18} color={COLORS.pink} />
+                <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: COLORS.aquaLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Droplet size={18} color={COLORS.aqua} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: "13.5px", color: COLORS.text, marginBottom: "2px" }}>{p.name}</p>
@@ -272,8 +273,8 @@ export default function ResultScreen({ result, onRestart }) {
               padding: "13px",
               borderRadius: "999px",
               border: "none",
-              background: EC_SITE_URL ? COLORS.dark : COLORS.border,
-              color: "#FFFFFF",
+              background: EC_SITE_URL ? COLORS.dark : "#EDE7E3",
+              color: EC_SITE_URL ? "#FFFFFF" : COLORS.textMuted,
               fontSize: "14px",
               letterSpacing: "0.03em",
               textDecoration: "none",
@@ -284,12 +285,13 @@ export default function ResultScreen({ result, onRestart }) {
           </a>
         </div>
         </div>
+        </div>
 
         <button
           type="button"
           className="no-print"
           onClick={onRestart}
-          style={{ width: "100%", marginBottom: "12px", padding: "13px", borderRadius: "999px", border: `1px solid ${COLORS.border}`, background: "#FFFFFF", color: COLORS.text, fontSize: "13.5px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", cursor: "pointer" }}
+          style={{ width: "100%", marginTop: "24px", marginBottom: "12px", padding: "13px", borderRadius: "999px", border: `1px solid ${COLORS.border}`, background: "#FFFFFF", color: COLORS.text, fontSize: "13.5px", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", cursor: "pointer" }}
         >
           <RotateCcw size={15} />
           もう一度診断する

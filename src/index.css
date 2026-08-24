@@ -44,12 +44,9 @@ button {
   }
 
   .result-two-col {
-    column-count: 2;
-    column-gap: 24px;
-  }
-
-  .result-two-col > * {
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    align-items: start;
+    gap: 24px;
   }
 }

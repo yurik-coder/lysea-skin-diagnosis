@@ -12,6 +12,7 @@ export const COLORS = {
   wine: "#A8536B", // NEW: スコア・数値など「目立たせたい」要素専用の濃いめアクセント
   dark: "#3f3532", // NEW: ボタンなど強いコントラストが欲しい要素用（--footer-bgと同色）
   aqua: "#7EC1D6", // ローディング画面のしずくキャラクター専用（水色）
+  aquaLight: "#E4F1F5", // 水色の淡色版（アイコン背景など）
   border: "#E2DBD4",
   text: "#534541",
   textMuted: "#78716c",
