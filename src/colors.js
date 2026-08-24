@@ -12,7 +12,12 @@ export const COLORS = {
   wine: "#A8536B", // NEW: スコア・数値など「目立たせたい」要素専用の濃いめアクセント
   dark: "#3f3532", // NEW: ボタンなど強いコントラストが欲しい要素用（--footer-bgと同色）
   aqua: "#7EC1D6", // ローディング画面のしずくキャラクター専用（水色）
-  aquaLight: "#E4F1F5", // 水色の淡色版（アイコン背景など）
+  aquaLight: "#E4F1F5", // 水色の淡色版（レーダーチャート・美容スコア周辺のみ）
+  purple: "#9B6B9E", // 診断タイプ名専用
+  green: "#6FA287", // おすすめのお手入れ（チェックマーク）専用
+  greenLight: "#EAF3EE", // おすすめのお手入れの背景
+  terracotta: "#D98B6B", // 商品アイコン専用
+  terracottaLight: "#FBE9E1", // 商品アイコンの背景
   border: "#E2DBD4",
   text: "#534541",
   textMuted: "#78716c",

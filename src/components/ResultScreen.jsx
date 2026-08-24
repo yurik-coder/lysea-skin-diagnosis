@@ -31,10 +31,10 @@ function RadarChart({ items }) {
         const [x, y] = point(i, maxR);
         return <line key={i} x1={center} y1={center} x2={x} y2={y} stroke={COLORS.border} strokeWidth="1" />;
       })}
-      <polygon points={dataPath} fill={COLORS.pink} fillOpacity="0.35" stroke={COLORS.pink} strokeWidth="2" strokeLinejoin="round" />
+      <polygon points={dataPath} fill={COLORS.aqua} fillOpacity="0.35" stroke={COLORS.aqua} strokeWidth="2" strokeLinejoin="round" />
       {items.map((item, i) => {
         const [x, y] = point(i, (item.value / 100) * maxR);
-        return <circle key={i} cx={x} cy={y} r="3.5" fill={COLORS.pink} />;
+        return <circle key={i} cx={x} cy={y} r="3.5" fill={COLORS.aqua} />;
       })}
       {items.map((item, i) => {
         const [x, y] = point(i, maxR + 24);
@@ -69,7 +69,7 @@ function ScoreRing({ score }) {
           cy="84"
           r={r}
           fill="none"
-          stroke={COLORS.wine}
+          stroke={COLORS.aqua}
           strokeWidth="12"
           strokeLinecap="round"
           strokeDasharray={circumference}
@@ -161,6 +161,7 @@ export default function ResultScreen({ result, onRestart }) {
           AI SKIN REPORT
         </p>
 
+        <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "20px", marginBottom: "18px" }}>
         <div className="result-two-col">
         <div>
         <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "32px 24px 26px", textAlign: "center", marginBottom: "16px", position: "relative", overflow: "hidden" }}>
@@ -178,15 +179,15 @@ export default function ResultScreen({ result, onRestart }) {
           <div style={{ marginTop: "16px", paddingTop: "16px", borderTop: `1px dashed ${COLORS.border}` }}>
             <p style={{ fontSize: "11.5px", color: COLORS.textMuted, marginBottom: "6px" }}>あなたの診断タイプは</p>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
-              <Sparkles size={16} color={COLORS.bronze} />
-              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.bronze }}>{diagnosisType}</p>
-              <Sparkles size={16} color={COLORS.bronze} />
+              <Sparkles size={16} color={COLORS.purple} />
+              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.purple }}>{diagnosisType}</p>
+              <Sparkles size={16} color={COLORS.purple} />
             </div>
           </div>
         </div>
 
-        <div style={{ background: COLORS.aquaLight, borderRadius: "18px", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
-          <Sprout size={18} color={COLORS.aqua} />
+        <div style={{ background: COLORS.pinkLight, borderRadius: "18px", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginBottom: "20px" }}>
+          <Sprout size={18} color={COLORS.pink} />
           <span style={{ fontSize: "13.5px", color: COLORS.text }}>あなたの推定肌年齢は</span>
           <span style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "22px", fontWeight: 700, color: COLORS.wine }}>{skinAge}歳</span>
           <span style={{ fontSize: "13.5px", color: COLORS.text }}>です</span>
@@ -219,12 +220,12 @@ export default function ResultScreen({ result, onRestart }) {
           </div>
         </div>
 
-        <div style={{ background: COLORS.bgBeige, borderRadius: "20px", padding: "18px 20px", marginBottom: "20px" }}>
+        <div style={{ background: COLORS.greenLight, borderRadius: "20px", padding: "18px 20px", marginBottom: "20px" }}>
           <p style={{ fontSize: "13px", fontWeight: 600, color: COLORS.text, marginBottom: "10px" }}>おすすめのお手入れ</p>
           <div style={{ display: "flex", flexDirection: "column", gap: "9px" }}>
             {careTips.map((tip, i) => (
               <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: "8px" }}>
-                <CheckCircle2 size={15} color={COLORS.aqua} style={{ flexShrink: 0, marginTop: "1.5px" }} />
+                <CheckCircle2 size={15} color={COLORS.green} style={{ flexShrink: 0, marginTop: "1.5px" }} />
                 <span style={{ fontSize: "13px", color: COLORS.text, lineHeight: 1.6 }}>{tip}</span>
               </div>
             ))}
@@ -249,8 +250,8 @@ export default function ResultScreen({ result, onRestart }) {
                 {...(itemUrl ? { href: itemUrl, target: "_blank", rel: "noopener noreferrer" } : {})}
                 style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 4px", borderTop: i > 0 ? `1px solid ${COLORS.border}` : "none", textDecoration: "none", cursor: itemUrl ? "pointer" : "default" }}
               >
-                <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: COLORS.aquaLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Droplet size={18} color={COLORS.aqua} />
+                <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: COLORS.terracottaLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Droplet size={18} color={COLORS.terracotta} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: "13.5px", color: COLORS.text, marginBottom: "2px" }}>{p.name}</p>
@@ -283,6 +284,7 @@ export default function ResultScreen({ result, onRestart }) {
           >
             商品を見る
           </a>
+        </div>
         </div>
         </div>
         </div>
