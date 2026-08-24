@@ -1,11 +1,18 @@
 import { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { Droplet, Sparkles, Sun, ShieldCheck, Download, ChevronRight, Sprout, CheckCircle2, RotateCcw } from "lucide-react";
+import { Droplet, Sparkles, Sun, ShieldCheck, Download, ChevronRight, Sprout, CheckCircle2, RotateCcw, Gem } from "lucide-react";
 import { COLORS } from "../colors.js";
 import { EC_SITE_URL } from "../config.js";
 
-// EC_SITE_URLが未設定の場合は、商品名のみ表示しリンクは無効化する
+// 商品セットのジャンル（concern）ごとに、意味の合ったアイコンを割り当てます
+const CONCERN_ICON = {
+  "乾燥・保湿ケア": Droplet,
+  "シミ・美白ケア": Sun,
+  "毛穴・角質ケア": ShieldCheck,
+  "エイジング（ハリ・弾力）": Sparkles,
+  "透明感・くすみ": Gem,
+};
 
 function RadarChart({ items }) {
   const size = 260;
@@ -103,7 +110,7 @@ export default function ResultScreen({ result, onRestart }) {
     );
   }
 
-  const { score, radar, comment, skinAge, diagnosisType, careTips, skinState, careSet } = result;
+  const { score, radar, comment, skinAge, diagnosisType, careTips, careSet } = result;
   const reportRef = useRef(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
@@ -170,18 +177,12 @@ export default function ResultScreen({ result, onRestart }) {
           <p style={{ fontSize: "13px", color: COLORS.textMuted, marginBottom: "14px" }}>あなたの美容スコア</p>
           <ScoreRing score={score} />
 
-          <div style={{ marginTop: "18px", marginBottom: "4px" }}>
-            <span style={{ fontSize: "10.5px", color: COLORS.textMuted, marginRight: "6px" }}>肌タイプ：</span>
-            <span style={{ display: "inline-block", padding: "5px 14px", background: COLORS.pinkLight, borderRadius: "999px", fontSize: "12.5px", color: COLORS.text }}>
-              {skinState}
-            </span>
-          </div>
-          <div style={{ marginTop: "16px", paddingTop: "16px", borderTop: `1px dashed ${COLORS.border}` }}>
+          <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: `1px dashed ${COLORS.border}` }}>
             <p style={{ fontSize: "11.5px", color: COLORS.textMuted, marginBottom: "6px" }}>あなたの診断タイプは</p>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
-              <Sparkles size={16} color={COLORS.purple} />
-              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.purple }}>{diagnosisType}</p>
-              <Sparkles size={16} color={COLORS.purple} />
+              <Sparkles size={16} color={COLORS.emerald} />
+              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.emerald }}>{diagnosisType}</p>
+              <Sparkles size={16} color={COLORS.emerald} />
             </div>
           </div>
         </div>
@@ -244,6 +245,7 @@ export default function ResultScreen({ result, onRestart }) {
           {careSet.products.map((p, i) => {
             const itemUrl = EC_SITE_URL ? `${EC_SITE_URL}/?item=${p.id}` : null;
             const RowTag = itemUrl ? "a" : "div";
+            const ProductIcon = CONCERN_ICON[careSet.concern] || Droplet;
             return (
               <RowTag
                 key={i}
@@ -251,7 +253,7 @@ export default function ResultScreen({ result, onRestart }) {
                 style={{ display: "flex", alignItems: "center", gap: "12px", padding: "12px 4px", borderTop: i > 0 ? `1px solid ${COLORS.border}` : "none", textDecoration: "none", cursor: itemUrl ? "pointer" : "default" }}
               >
                 <div style={{ width: "40px", height: "40px", borderRadius: "12px", background: COLORS.terracottaLight, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Droplet size={18} color={COLORS.terracotta} />
+                  <ProductIcon size={18} color={COLORS.terracotta} />
                 </div>
                 <div style={{ flex: 1 }}>
                   <p style={{ fontSize: "13.5px", color: COLORS.text, marginBottom: "2px" }}>{p.name}</p>

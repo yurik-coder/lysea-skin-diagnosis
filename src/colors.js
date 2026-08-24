@@ -13,7 +13,7 @@ export const COLORS = {
   dark: "#3f3532", // NEW: ボタンなど強いコントラストが欲しい要素用（--footer-bgと同色）
   aqua: "#7EC1D6", // ローディング画面のしずくキャラクター専用（水色）
   aquaLight: "#E4F1F5", // 水色の淡色版（レーダーチャート・美容スコア周辺のみ）
-  purple: "#9B6B9E", // 診断タイプ名専用
+  emerald: "#4C9A8C", // 診断タイプ名専用
   green: "#6FA287", // おすすめのお手入れ（チェックマーク）専用
   greenLight: "#EAF3EE", // おすすめのお手入れの背景
   terracotta: "#D98B6B", // 商品アイコン専用
