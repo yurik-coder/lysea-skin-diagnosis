@@ -167,7 +167,7 @@ export default function ResultScreen({ result, onRestart }) {
         <p style={{ textAlign: "center", fontFamily: "'Montserrat', sans-serif", fontSize: "20px", letterSpacing: "0.15em", color: COLORS.text, marginBottom: "2px" }}>
           Lyséa
         </p>
-        <p style={{ textAlign: "center", fontSize: "11px", letterSpacing: "0.12em", color: COLORS.gold, marginBottom: "0px" }}>
+        <p style={{ textAlign: "center", fontSize: "11px", letterSpacing: "0.12em", color: COLORS.gold, marginBottom: "20px" }}>
           AI SKIN REPORT
         </p>
         </div>
