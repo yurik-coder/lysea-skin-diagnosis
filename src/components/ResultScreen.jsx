@@ -118,35 +118,37 @@ export default function ResultScreen({ result, onRestart }) {
     if (!reportRef.current) return;
     setIsGenerating(true);
     try {
-      // 画面の幅に関わらず、常にスマホ幅（480px）のレイアウトでキャプチャする
-      // → PC幅（2カラム）のまま撮影すると、A4用紙に対して横長すぎて
-      //   下部に大きな余白ができてしまうため
-      const canvas = await html2canvas(reportRef.current, {
-        scale: 2,
-        backgroundColor: COLORS.bg,
-        ignoreElements: (el) => el.classList?.contains("no-print"),
-      });
-      const imgData = canvas.toDataURL("image/png");
+      // カード（.pdf-card）ごとに個別に撮影し、ページの残りスペースに
+      // 収まるかを確認しながら配置する。文章やカードの途中でページが
+      // 切り替わらないようにするための仕組み。
+      const cards = Array.from(reportRef.current.querySelectorAll(".pdf-card"));
 
       const pdf = new jsPDF("p", "mm", "a4");
       const pageWidth = pdf.internal.pageSize.getWidth();
       const pageHeight = pdf.internal.pageSize.getHeight();
-      const margin = 10; // 左右・上の余白（mm）
+      const margin = 10; // 左右・上下の余白（mm）
+      const gap = 5; // カード同士の間隔（mm）
       const imgWidth = pageWidth - margin * 2;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      // 画像の縦幅がA4の1ページに収まらない場合は、複数ページに分割して貼り付ける
-      let heightLeft = imgHeight;
-      let position = margin;
+      let cursorY = margin;
 
-      pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight - margin * 2;
+      for (const card of cards) {
+        const canvas = await html2canvas(card, {
+          scale: 2,
+          backgroundColor: COLORS.bg,
+        });
+        const imgData = canvas.toDataURL("image/png");
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      while (heightLeft > 0) {
-        position = margin - (imgHeight - heightLeft);
-        pdf.addPage();
-        pdf.addImage(imgData, "PNG", margin, position, imgWidth, imgHeight);
-        heightLeft -= pageHeight - margin * 2;
+        // すでに何か配置済みのページで、このカードが残りスペースに
+        // 収まらない場合だけ、次のページへ送る
+        if (cursorY > margin && cursorY + imgHeight > pageHeight - margin) {
+          pdf.addPage();
+          cursorY = margin;
+        }
+
+        pdf.addImage(imgData, "PNG", margin, cursorY, imgWidth, imgHeight);
+        cursorY += imgHeight + gap;
       }
 
       pdf.save("Lysea_AI_Skin_Report.pdf");
@@ -161,50 +163,41 @@ export default function ResultScreen({ result, onRestart }) {
   return (
     <div style={{ minHeight: "100vh", background: COLORS.bg, display: "flex", justifyContent: "center", padding: "44px 16px 60px" }}>
       <div ref={reportRef} className="result-shell" style={{ width: "100%", maxWidth: "480px" }}>
+        <div className="pdf-card">
         <p style={{ textAlign: "center", fontFamily: "'Montserrat', sans-serif", fontSize: "20px", letterSpacing: "0.15em", color: COLORS.text, marginBottom: "2px" }}>
           Lyséa
         </p>
-        <p style={{ textAlign: "center", fontSize: "11px", letterSpacing: "0.12em", color: COLORS.gold, marginBottom: "28px" }}>
+        <p style={{ textAlign: "center", fontSize: "11px", letterSpacing: "0.12em", color: COLORS.gold, marginBottom: "0px" }}>
           AI SKIN REPORT
         </p>
+        </div>
 
-        <div className="result-pair">
-        <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "32px 24px 26px", textAlign: "center", marginBottom: "20px", position: "relative", overflow: "hidden" }}>
+        <div className="result-two-col">
+        <div>
+        <div className="pdf-card" style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "32px 24px 26px", textAlign: "center", marginBottom: "20px", position: "relative", overflow: "hidden" }}>
           <Sparkles size={16} color={COLORS.gold} style={{ position: "absolute", top: 18, left: 20 }} />
           <Sparkles size={12} color={COLORS.bronze} style={{ position: "absolute", top: 30, right: 26 }} />
           <p style={{ fontSize: "13px", color: COLORS.textMuted, marginBottom: "14px" }}>あなたの美容スコア</p>
           <ScoreRing score={score} />
 
           <div style={{ marginTop: "20px", paddingTop: "16px", borderTop: `1px dashed ${COLORS.border}` }}>
-            <p style={{ fontSize: "11.5px", color: COLORS.textMuted, marginBottom: "6px" }}>あなたの診断タイプは</p>
+            <p style={{ fontSize: "11.5px", color: COLORS.textMuted, marginBottom: "2px" }}>あなたの診断タイプは</p>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
               <Sparkles size={16} color={COLORS.emerald} />
-              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.emerald }}>{diagnosisType}</p>
+              <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "25px", fontWeight: 700, color: COLORS.emerald, margin: 0 }}>{diagnosisType}</p>
               <Sparkles size={16} color={COLORS.emerald} />
             </div>
-            <p style={{ fontSize: "12px", color: COLORS.textMuted, marginTop: "10px" }}>
-              あなたの推定肌年齢は <span style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "16px", fontWeight: 700, color: COLORS.wine }}>{skinAge}歳</span> です
-            </p>
-          </div>
-        </div>
-
-        <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "22px 20px", marginBottom: "20px" }}>
-          <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "18px", fontWeight: 700, color: COLORS.text, marginBottom: "14px" }}>
-            AI総合診断コメント
-          </p>
-          <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
-            <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: COLORS.aqua, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
-              <Droplet size={18} color="#FFFFFF" fill="#FFFFFF" fillOpacity={0.25} />
-            </div>
-            <div style={{ background: COLORS.bgCard, border: `1px solid ${COLORS.border}`, borderRadius: "4px 18px 18px 18px", padding: "16px 16px", fontSize: "13.5px", lineHeight: 1.9, color: COLORS.text, flex: 1 }}>
-              {comment}
+            <div style={{ marginTop: "16px", paddingTop: "14px", borderTop: `1px dashed ${COLORS.border}` }}>
+              <p style={{ fontSize: "11.5px", color: COLORS.textMuted, marginBottom: "2px" }}>あなたの推定肌年齢</p>
+              <p style={{ margin: 0 }}>
+                <span style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "34px", fontWeight: 700, color: COLORS.wine }}>{skinAge}</span>
+                <span style={{ fontSize: "15px", color: COLORS.wine, fontWeight: 700 }}>歳</span>
+              </p>
             </div>
           </div>
         </div>
-        </div>
 
-        <div className="result-pair">
-        <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "26px 12px 16px", marginBottom: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div className="pdf-card" style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "26px 12px 16px", marginBottom: "20px", display: "flex", flexDirection: "column", alignItems: "center" }}>
           <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "18px", fontWeight: 700, color: COLORS.text, marginBottom: "8px" }}>
             肌状態レーダー
           </p>
@@ -219,8 +212,24 @@ export default function ResultScreen({ result, onRestart }) {
             ))}
           </div>
         </div>
+        </div>
 
-        <div style={{ background: COLORS.greenLight, borderRadius: "20px", padding: "18px 20px", marginBottom: "20px" }}>
+        <div>
+        <div className="pdf-card" style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "22px 20px", marginBottom: "20px" }}>
+          <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "18px", fontWeight: 700, color: COLORS.text, marginBottom: "14px" }}>
+            AI総合診断コメント
+          </p>
+          <div style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}>
+            <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: COLORS.aqua, display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, marginTop: "2px" }}>
+              <Droplet size={18} color="#FFFFFF" fill="#FFFFFF" fillOpacity={0.25} />
+            </div>
+            <div style={{ background: COLORS.bgCard, border: `1px solid ${COLORS.border}`, borderRadius: "4px 18px 18px 18px", padding: "16px 16px", fontSize: "13.5px", lineHeight: 1.9, color: COLORS.text, flex: 1 }}>
+              {comment}
+            </div>
+          </div>
+        </div>
+
+        <div className="pdf-card" style={{ background: COLORS.greenLight, borderRadius: "20px", padding: "18px 20px", marginBottom: "20px" }}>
           <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "18px", fontWeight: 700, color: COLORS.text, marginBottom: "14px" }}>
             おすすめのお手入れ
           </p>
@@ -233,9 +242,8 @@ export default function ResultScreen({ result, onRestart }) {
             ))}
           </div>
         </div>
-        </div>
 
-        <div style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "22px 20px 20px", marginBottom: "18px" }}>
+        <div className="pdf-card" style={{ background: "#FFFFFF", borderRadius: "24px", border: `1px solid ${COLORS.border}`, padding: "22px 20px 20px", marginBottom: "18px" }}>
           <p style={{ fontSize: "11px", color: COLORS.textMuted, marginBottom: "4px" }}>あなたにおすすめの商品</p>
           <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "19px", fontWeight: 700, color: COLORS.text, marginBottom: "16px" }}>{careSet.title}</p>
 
@@ -283,6 +291,8 @@ export default function ResultScreen({ result, onRestart }) {
           >
             商品を見る
           </a>
+        </div>
+        </div>
         </div>
 
         <button
