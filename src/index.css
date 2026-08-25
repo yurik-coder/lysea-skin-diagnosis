@@ -43,9 +43,9 @@ button {
     max-width: 1040px !important;
   }
 
-  .result-two-col {
+  .result-pair {
     display: grid;
-    grid-template-columns: 380px 1fr;
+    grid-template-columns: 1fr 1fr;
     align-items: start;
     gap: 24px;
   }
