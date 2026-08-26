@@ -194,10 +194,26 @@ def item_comment(value):
 
 
 def compute_skin_age(age_range, scores):
+    """
+    肌年齢を算出する。
+    単純な5項目平均だけだと、Geminiのコメントが注目する
+    「一番良い項目／一番悪い項目」の影響が薄まってしまうため、
+    その2項目を重めに反映する。
+    """
     base = AGE_MIDPOINT.get(age_range, 27)
-    avg = sum(scores.values()) / len(scores)
-    adjustment = round((avg - 75) / 5)  # 平均が高いほど若く算出
-    return max(15, base - adjustment)
+    values = list(scores.values())
+    highest = max(values)
+    lowest = min(values)
+    # 最高・最低を除いた残りの項目の平均を「基準」にする
+    middle_values = sorted(values)[1:-1] if len(values) > 2 else values
+    middle_avg = sum(middle_values) / len(middle_values)
+
+    # 一番良い項目→若返り、一番悪い項目→年齢アップ、それぞれ強めに反映
+    extremes_effect = (highest - middle_avg) / 4 - (middle_avg - lowest) / 4
+    baseline_effect = (middle_avg - 75) / 6
+
+    adjustment = extremes_effect + baseline_effect
+    return max(15, round(base - adjustment))
 
 
 def pick_diagnosis_type(scores):
