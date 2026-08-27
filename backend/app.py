@@ -199,7 +199,19 @@ def compute_skin_age(age_range, scores):
     単純な5項目平均だけだと、Geminiのコメントが注目する
     「一番良い項目／一番悪い項目」の影響が薄まってしまうため、
     その2項目を重めに反映する。
+
+    また、肌診断を受ける人は美容意識が高く、前向きな結果の方が
+    お手入れへのモチベーションにつながりやすいと考えられるため、
+    ・一番良い項目の若返り効果はやや強め
+    ・一番悪い項目の老化効果はやや弱め
+    ・全体にわずかな若返りの下駄（POSITIVE_BIAS）
+    という調整を加えている。ただし極端な数字にならないよう、
+    若返り・年齢アップともに上限を設けている。
     """
+    POSITIVE_BIAS = 1.5  # 全体にかける、わずかな若返りの下駄（年）
+    MAX_YOUNGER = 6  # 実年齢からどれだけ若く出してよいかの上限（年）
+    MAX_OLDER = 3  # 実年齢からどれだけ上に出してよいかの上限（年）
+
     base = AGE_MIDPOINT.get(age_range, 27)
     values = list(scores.values())
     highest = max(values)
@@ -208,11 +220,12 @@ def compute_skin_age(age_range, scores):
     middle_values = sorted(values)[1:-1] if len(values) > 2 else values
     middle_avg = sum(middle_values) / len(middle_values)
 
-    # 一番良い項目→若返り、一番悪い項目→年齢アップ、それぞれ強めに反映
-    extremes_effect = (highest - middle_avg) / 4 - (middle_avg - lowest) / 4
+    # 一番良い項目→若返り効果を強め、一番悪い項目→年齢アップ効果を弱める
+    extremes_effect = (highest - middle_avg) / 3.5 - (middle_avg - lowest) / 5
     baseline_effect = (middle_avg - 75) / 6
 
-    adjustment = extremes_effect + baseline_effect
+    adjustment = extremes_effect + baseline_effect + POSITIVE_BIAS
+    adjustment = max(-MAX_OLDER, min(MAX_YOUNGER, adjustment))
     return max(15, round(base - adjustment))
 
 
