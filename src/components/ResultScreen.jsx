@@ -7,11 +7,11 @@ import { EC_SITE_URL } from "../config.js";
 
 // 商品セットのジャンル（concern）ごとに、意味の合ったアイコンを割り当てます
 const CONCERN_ICON = {
-  "乾燥・保湿ケア": Droplet,
-  "シミ・美白ケア": Sun,
-  "毛穴・角質ケア": ShieldCheck,
-  "エイジング（ハリ・弾力）": Sparkles,
-  "透明感・くすみ": Gem,
+  moisture: Droplet,
+  whitening: Sun,
+  pore: ShieldCheck,
+  aging: Sparkles,
+  dullness: Gem,
 };
 
 function RadarChart({ items }) {

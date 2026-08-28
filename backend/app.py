@@ -118,7 +118,7 @@ SKIN_STATE_PREFIX = {
 CARE_SET_MAP = {
     "hydration": {
         "title": "うるおいチャージセット",
-        "concern": "乾燥・保湿ケア",
+        "concern": "moisture",
         "products": [
             {"id": "moist-charge-lotion", "name": "モイスト チャージ ローション", "price": "¥4,400 (税込)"},
             {"id": "moist-charge-serum", "name": "モイスト チャージ セラム", "price": "¥5,500 (税込)"},
@@ -127,7 +127,7 @@ CARE_SET_MAP = {
     },
     "spots": {
         "title": "透明感・美白ケアセット",
-        "concern": "シミ・美白ケア",
+        "concern": "whitening",
         "products": [
             {"id": "brightening-serum", "name": "ブライトニング セラム", "price": "¥6,500 (税込)"},
             {"id": "brightening-spot-essence", "name": "ブライトニング スポットケア美容液", "price": "¥5,800 (税込)"},
@@ -136,7 +136,7 @@ CARE_SET_MAP = {
     },
     "pores": {
         "title": "毛穴クリアケアセット",
-        "concern": "毛穴・角質ケア",
+        "concern": "pore",
         "products": [
             {"id": "pure-milk-cleanse", "name": "ピュア ミルク クレンズ", "price": "¥3,800 (税込)"},
             {"id": "moist-whip-wash", "name": "モイスト ホイップ ウォッシュ", "price": "¥3,200 (税込)"},
@@ -144,7 +144,7 @@ CARE_SET_MAP = {
     },
     "firmness": {
         "title": "ハリ育成エイジングケアセット",
-        "concern": "エイジング（ハリ・弾力）",
+        "concern": "aging",
         "products": [
             {"id": "advanced-rich-serum", "name": "アドバンスド リッチ セラム", "price": "¥6,800 (税込)"},
             {"id": "advanced-rich-cream", "name": "アドバンスド リッチ クリーム", "price": "¥7,500 (税込)"},
@@ -153,7 +153,7 @@ CARE_SET_MAP = {
     },
     "transparency": {
         "title": "透明感かがやきセット",
-        "concern": "透明感・くすみ",
+        "concern": "dullness",
         "products": [
             {"id": "day-protect-uv-essence", "name": "デイプロテクト UVエッセンス", "price": "¥3,500 (税込)"},
             {"id": "brightening-lotion", "name": "ブライトニング ローション", "price": "¥5,000 (税込)"},
