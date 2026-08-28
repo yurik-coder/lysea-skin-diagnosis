@@ -248,7 +248,7 @@ export default function ResultScreen({ result, onRestart }) {
           <p style={{ fontFamily: "'Zen Kaku Gothic New', sans-serif", fontSize: "19px", fontWeight: 700, color: COLORS.text, marginBottom: "16px" }}>{careSet.title}</p>
 
           {careSet.products.map((p, i) => {
-            const itemUrl = EC_SITE_URL ? `${EC_SITE_URL}/?item=${p.id}` : null;
+            const itemUrl = EC_SITE_URL ? `${EC_SITE_URL}/products.html?item=${p.id}` : null;
             const RowTag = itemUrl ? "a" : "div";
             const ProductIcon = CONCERN_ICON[careSet.concern] || Droplet;
             return (
@@ -270,7 +270,7 @@ export default function ResultScreen({ result, onRestart }) {
           })}
 
           <a
-            href={EC_SITE_URL ? `${EC_SITE_URL}/?concern=${encodeURIComponent(careSet.concern)}` : undefined}
+            href={EC_SITE_URL ? `${EC_SITE_URL}/products.html?concern=${encodeURIComponent(careSet.concern)}` : undefined}
             target="_blank"
             rel="noopener noreferrer"
             style={{
