@@ -7,4 +7,4 @@ export const API_BASE_URL = "https://lysea-skin-diagnosis-api.onrender.com";
 // ECサイト（Lyséa本体）のURL。商品詳細への導線に使います。
 // 例: "https://yurik-coder.github.io/lysea-ec"
 // 末尾にスラッシュは付けないでください。
-export const EC_SITE_URL = "";
+export const EC_SITE_URL = "https://yurik-coder.github.io/lysea-beaute/";
