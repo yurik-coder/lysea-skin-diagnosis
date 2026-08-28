@@ -1,6 +1,6 @@
 // 発表当日、通信が不安定な場合の保険用スイッチです。
 // true にすると、実際のAPIを呼ばずダミーデータを返します（dummyResult.js参照）。
-export const USE_DUMMY_RESPONSE = false;
+export const USE_DUMMY_RESPONSE = true;
 
 export const API_BASE_URL = "https://lysea-skin-diagnosis-api.onrender.com";
 
